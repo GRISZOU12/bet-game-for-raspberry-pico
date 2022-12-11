@@ -6,14 +6,16 @@ from machine import Pin
 led = Pin(25, Pin.OUT)
 led.value(1)
 
+
 def read_tokens_count():
     with open("./tokens.count", "r") as tokens_count:
         tokens = tokens_count.read()
         tokens = int(tokens)
-    if tokens > 10:
-            with open("./tokens.count", "w") as tokens_count:
-                tokens_count.write(str(10))
+    if tokens < 10:
+        with open("./tokens.count", "w") as tokens_count:
+            tokens_count.write(str(10))
     return tokens
+
 
 def increase_tokens(amount):
     actual_tokens_count = read_tokens_count()
@@ -21,8 +23,9 @@ def increase_tokens(amount):
     with open("./tokens.count", "w") as tokens_count:
         tokens_count.write(str(new_tokens_count))
 
+
 while True:
-    confirmation =  input("Do you want to bet ? [y/n] > ")
+    confirmation = input("Do you want to bet ? [y/n] > ")
     if confirmation == "y":
         stake = input(f"How many tokens do you want to stake ? (minimum 10 and you have actually {read_tokens_count()}) > ")
         try:
@@ -34,7 +37,7 @@ while True:
                 print("Operation is impossible you don't have the required number of tokens.")
                 input("Press ENTER to continue ...")
             else:
-                win_or_lose = random.randint(1,2)
+                win_or_lose = random.randint(1, 2)
                 
                 if win_or_lose == 1:
                     prize = stake * 2
